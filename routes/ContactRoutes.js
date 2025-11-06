@@ -1,33 +1,28 @@
 import express from "express";
-import Contact from "../models/Contact.js";
+import Contact from "../models/contactModel.js";
 
 const router = express.Router();
-// Add new contact
+
+// POST - Save contact form data
 router.post("/", async (req, res) => {
   try {
-    const contact = new Contact({
-      fname: req.body.fname,
-      lname: req.body.lname,
-      email: req.body.email,
-      phone_number: req.body.phone_number,
-      plan_type: req.body.plan_type,
-      message: req.body.message,
-    });
-
-    const saved = await contact.save();
-
-    res.json({
-      id: saved._id,
-      fname: saved.fname,
-      lname: saved.lname,
-      email: saved.email,
-      phone_number: saved.phone_number,
-      plan_type: saved.plan_type,
-      message: saved.message
-    });
+    const newContact = new Contact(req.body);
+    await newContact.save();
+    res.status(201).json({ success: true, message: "Contact saved successfully!" });
   } catch (error) {
     console.error("Error saving contact:", error);
-    res.status(500).json({ message: "Failed to save contact" });
+    res.status(500).json({ success: false, message: "Failed to save contact" });
+  }
+});
+
+// (Optional) GET - Fetch all contacts (for admin dashboard)
+router.get("/", async (req, res) => {
+  try {
+    const contacts = await Contact.find().sort({ timestamp: -1 });
+    res.status(200).json({ success: true, data: contacts });
+  } catch (error) {
+    console.error("Error fetching contacts:", error);
+    res.status(500).json({ success: false, message: "Failed to fetch contacts" });
   }
 });
 
