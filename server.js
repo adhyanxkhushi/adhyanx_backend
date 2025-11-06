@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import cors from "cors";
-import dataRoutes from "./routes/dataRoutes.js";
 import testimonialRoutes from "./routes/testimonialRoutes.js";
+import contactRoutes from "./routes/ContactRoutes.js";
 
 dotenv.config();
 
@@ -25,7 +25,8 @@ app.listen(PORT, (err) => {
   if (err) {
     console.error("❌ Error starting server:", err);
   } else {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
+    console.log(`🚀 Server running`);
   }
 });
 app.use("/api/testimonials", testimonialRoutes);
+app.use("/api/contacts", contactRoutes);
