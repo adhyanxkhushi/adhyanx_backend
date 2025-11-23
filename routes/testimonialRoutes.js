@@ -1,5 +1,7 @@
 import express from "express";
 import Testimonial from "../models/Testimonials.js";
+import { sendNewTestimonialEmail } from "../utils/sendTestimonialEmail.js";
+
 
 const router = express.Router();
 
@@ -41,6 +43,8 @@ router.post("/", async (req, res) => {
     });
 
     const saved = await testimonial.save();
+
+    await sendNewTestimonialEmail(saved);
 
     res.json({
       id: saved._id,
