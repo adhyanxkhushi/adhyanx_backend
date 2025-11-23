@@ -1,5 +1,6 @@
 import express from "express";
 import Contact from "../models/contactModel.js";
+import { sendNewContactEmail } from "../utils/sendEmail.js";
 
 const router = express.Router();
 
@@ -8,6 +9,7 @@ router.post("/", async (req, res) => {
   try {
     const newContact = new Contact(req.body);
     await newContact.save();
+    sendNewContactEmail(newContact);
     res.status(201).json({ success: true, message: "Contact saved successfully!" });
   } catch (error) {
     console.error("Error saving contact:", error);
