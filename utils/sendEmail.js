@@ -15,6 +15,7 @@ export async function sendNewContactEmail(contact) {
       <p><strong>Email:</strong> ${contact.email}</p>
       <p><strong>Phone:</strong> ${contact.phone}</p>
       <p><strong>Message:</strong> ${contact.message}</p>
+      <p><strong>Plan type:</strong> ${contact.planType}</p>
     `,
   };
 
